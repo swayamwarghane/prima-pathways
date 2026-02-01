@@ -42,7 +42,13 @@ export function RegisterForm() {
     setLoading(true);
 
     try {
-      await signUp(formData.email, formData.password, formData.fullName, formData.mobile);
+      const result = await signUp(formData.email, formData.password, formData.fullName, formData.mobile);
+      
+      // If user was created and auto-confirmed (or we have a session), update step to 2
+      if (result.user) {
+        await updateRegistrationStep(result.user.id, 2);
+      }
+      
       toast.success('Account created! Please check your email to verify your account.');
       navigate('/login');
     } catch (error: any) {
