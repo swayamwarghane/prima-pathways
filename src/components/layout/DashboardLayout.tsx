@@ -11,7 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { GraduationCap, LogOut, User, LayoutDashboard, Users, ClipboardList, Download } from 'lucide-react';
+import { GraduationCap, LogOut, User, LayoutDashboard, Users, ClipboardList, Download, UserPlus } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 
@@ -48,8 +48,9 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   const adminNavItems = [
     { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
     { href: '/admin/interns', label: 'Interns', icon: Users },
-    { href: '/admin/tasks', label: 'Tasks', icon: ClipboardList },
-    { href: '/admin/export', label: 'Export Data', icon: Download },
+    { href: '/admin/tasks', label: 'Review Tasks', icon: ClipboardList },
+    { href: '/admin/assign', label: 'Assign Tasks', icon: UserPlus },
+    { href: '/admin/export', label: 'Export', icon: Download },
   ];
 
   return (
