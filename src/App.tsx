@@ -13,7 +13,10 @@ import Profile from "./pages/Profile";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminInterns from "./pages/admin/AdminInterns";
 import AdminTasks from "./pages/admin/AdminTasks";
+import AdminAssignTasks from "./pages/admin/AdminAssignTasks";
 import AdminExport from "./pages/admin/AdminExport";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 import NotFound from "./pages/NotFound";
 import { Loader2 } from "lucide-react";
 
@@ -77,6 +80,8 @@ function AppRoutes() {
       } />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="/registration" element={<Registration />} />
       <Route path="/dashboard" element={
         <ProtectedRoute>
@@ -101,6 +106,11 @@ function AppRoutes() {
       <Route path="/admin/tasks" element={
         <ProtectedRoute requireAdmin>
           <AdminTasks />
+        </ProtectedRoute>
+      } />
+      <Route path="/admin/assign" element={
+        <ProtectedRoute requireAdmin>
+          <AdminAssignTasks />
         </ProtectedRoute>
       } />
       <Route path="/admin/export" element={
