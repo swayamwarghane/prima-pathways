@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { RegistrationProgress } from '@/components/registration/RegistrationProgress';
@@ -9,6 +10,16 @@ export default function Registration() {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate('/login');
+    }
+    // Already completed registration
+    if (!loading && user && user.registrationStep >= 4) {
+      navigate('/dashboard');
+    }
+  }, [user, loading, navigate]);
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center gradient-surface">
@@ -17,20 +28,21 @@ export default function Registration() {
     );
   }
 
-  if (!user) {
-    navigate('/login');
-    return null;
-  }
-
-  // Already completed registration
-  if (user.registrationStep >= 4) {
-    navigate('/dashboard');
-    return null;
+  if (!user || user.registrationStep >= 4) {
+    return (
+      <div className="min-h-screen flex items-center justify-center gradient-surface">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
   }
 
   const handleStepComplete = () => {
     // Refresh will happen in the form components
   };
+
+  // Determine which step to show - step 1 means account created, show personal details (step 2 form)
+  // We treat step 1 as needing to complete personal details
+  const currentFormStep = user.registrationStep <= 1 ? 2 : user.registrationStep;
 
   return (
     <div className="min-h-screen gradient-surface py-8 px-4">
@@ -47,13 +59,13 @@ export default function Registration() {
           </div>
         </div>
 
-        <RegistrationProgress currentStep={user.registrationStep} totalSteps={3} />
+        <RegistrationProgress currentStep={currentFormStep} totalSteps={3} />
 
         <div className="mt-6">
-          {user.registrationStep === 2 && (
+          {currentFormStep === 2 && (
             <PersonalDetailsForm onComplete={handleStepComplete} />
           )}
-          {user.registrationStep === 3 && (
+          {currentFormStep === 3 && (
             <CollegeDetailsForm onComplete={handleStepComplete} />
           )}
         </div>
