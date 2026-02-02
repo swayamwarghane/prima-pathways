@@ -18,8 +18,8 @@ export default function ForgotPassword() {
     setLoading(true);
 
     try {
-      // Use the correct app URL for password reset redirect
-      const redirectUrl = `https://id-preview--45af957d-1bec-4781-bd8c-4d984b2e8e06.lovable.app/reset-password`;
+      // Use dynamic URL for password reset redirect
+      const redirectUrl = `${window.location.origin}/reset-password`;
       
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: redirectUrl,
